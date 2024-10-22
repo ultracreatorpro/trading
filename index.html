@@ -100,6 +100,37 @@
       cursor: pointer;
       width: 33%;
     }
+
+    /* Estilos para el popup */
+    .popup {
+      display: none;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+
+    .popup button {
+      margin-top: 10px;
+    }
+
+    /* Fondo del popup */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 500;
+    }
   </style>
 </head>
 <body>
@@ -108,7 +139,7 @@
     <img src="enlace-a-tu-icono.jpg" alt="Información" onclick="openInfoModal()">
   </div>
 
-  <div id="balance">Balance: 5 TRX</div>
+  <div id="balance">Balance: 10 TRX</div>
 
   <div class="prediction-container" id="predictionContainer">Esperando predicción...</div>
 
@@ -138,8 +169,15 @@
     </div>
   </div>
 
+  <!-- Popup y overlay -->
+  <div class="overlay" id="overlay"></div>
+  <div class="popup" id="popup">
+    <p id="popupMessage"></p>
+    <button onclick="closePopup()">Cerrar</button>
+  </div>
+
   <script>
-    let balance = localStorage.getItem('balance') ? parseFloat(localStorage.getItem('balance')) : 5;
+    let balance = localStorage.getItem('balance') ? parseFloat(localStorage.getItem('balance')) : 10; // Cambiado a 10 TRX
     let betAmount = 0;
 
     // Inicializar balance en la página
@@ -154,13 +192,25 @@
       document.getElementById('infoModal').style.display = 'none';
     }
 
+    // Mostrar mensaje emergente
+    function showPopup(message) {
+      document.getElementById('popupMessage').textContent = message;
+      document.getElementById('popup').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    }
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+    }
+
     // Establecer monto de la apuesta
     function setBet(amount) {
       if (balance >= amount) {
         betAmount = amount;
-        alert(`Apuesta de ${amount} TRX seleccionada.`);
+        showPopup(`Apuesta de ${amount} TRX seleccionada.`);
       } else {
-        alert("No tienes saldo suficiente.");
+        showPopup("No tienes saldo suficiente. Deposite para seguir apostando.");
       }
     }
 
@@ -170,26 +220,26 @@
         let result = Math.random() < 0.5 ? 'up' : 'down';
         let predictionText = prediction === 'up' ? 'subir' : 'bajar';
         document.getElementById('predictionContainer').textContent = `Predicción: ${predictionText}`;
-        setTimeout(() => checkResult(prediction, result), 3000);
+        setTimeout(() => checkResult(prediction, result), 2000);
       } else {
-        alert("Selecciona una cantidad para apostar.");
+        showPopup("Selecciona una cantidad para apostar.");
       }
     }
 
     function checkResult(prediction, result) {
       if (prediction === result) {
-        balance += betAmount;
-        alert(`Ganaste ${betAmount} TRX`);
+        balance += betAmount * 2; // Duplicar la ganancia
+        showPopup(`Ganaste ${betAmount * 2} TRX`);
       } else {
         balance -= betAmount;
-        alert(`Perdiste ${betAmount} TRX`);
+        showPopup(`Perdiste ${betAmount} TRX`);
       }
       document.getElementById('balance').textContent = `Balance: ${balance} TRX`;
       localStorage.setItem('balance', balance); // Actualiza el balance en localStorage
       betAmount = 0;
 
       if (balance <= 0) {
-        alert("Te quedaste sin saldo, debes depositar.");
+        showPopup("Te quedaste sin saldo, debes depositar.");
         balance = 0; // Reinicia el balance a cero si se queda sin saldo
         localStorage.setItem('balance', balance);
       }
@@ -197,15 +247,15 @@
 
     // Funciones del menú
     function goToHome() {
-      alert("Estás en Inicio");
+      showPopup("");
     }
 
     function goToDeposit() {
-      alert("Ir a la sección de Depositar (por configurar)");
+      showPopup("");
     }
 
     function goToReferrals() {
-      alert("Ir a la sección de Referidos (por configurar)");
+      showPopup("");
     }
   </script>
 </body>
