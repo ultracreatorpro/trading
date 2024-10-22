@@ -169,69 +169,85 @@
   </div>
 
   <script>
-    let balance = localStorage.getItem('balance') ? parseFloat(localStorage.getItem('balance')) : 10; // Cambiado a 10 TRX
-    let betAmount = 0;
+  let balance = localStorage.getItem('balance') ? parseFloat(localStorage.getItem('balance')) : 10; // Cambiado a 10 TRX
+  let betAmount = 0;
 
-    // Inicializar balance en la página
+  // Inicializar balance en la página
+  document.getElementById('balance').textContent = `Balance: ${balance} TRX`;
+
+  // Mostrar ventana de ayuda
+  function showHelp() {
+    showPopup("✅ El juego consiste en predecir si crees que el precio del TRX subirá o bajará. Si aciertas, ganarás el doble de lo que apostaste.");
+  }
+
+  // Mostrar mensaje emergente
+  function showPopup(message) {
+    document.getElementById('popupMessage').textContent = message;
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+  }
+
+  function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+  }
+
+  // Establecer monto de la apuesta
+  function setBet(amount) {
+    if (balance >= amount) {
+      betAmount = amount;
+      showPopup(`Apuesta de ${amount} TRX seleccionada.`);
+    } else {
+      showPopup("⚠️ No tienes saldo suficiente. Deposite para seguir apostando.");
+    }
+  }
+
+  // Simular predicción
+  function makePrediction(prediction) {
+    if (betAmount > 0) {
+      let result = Math.random() < 0.5 ? 'up' : 'down'; // Asegura resultados aleatorios
+      let predictionText = prediction === 'up' ? 'subir' : 'bajar';
+      document.getElementById('predictionContainer').textContent = `Predicción: ${predictionText}`;
+      setTimeout(() => checkResult(prediction, result), 2000);
+    } else {
+      showPopup("✅ Primero selecciona una cantidad para apostar.");
+    }
+  }
+
+  function checkResult(prediction, result) {
+    if (prediction === result) {
+      balance += betAmount * 2; // Duplicar la ganancia
+      showPopup(`Ganaste ${betAmount * 2} TRX`);
+    } else {
+      balance -= betAmount;
+      showPopup(`Perdiste ${betAmount} TRX`);
+    }
     document.getElementById('balance').textContent = `Balance: ${balance} TRX`;
+    localStorage.setItem('balance', balance); // Actualiza el balance en localStorage
+    betAmount = 0;
 
-    // Mostrar ventana de ayuda
-    function showHelp() {
-      showPopup("✅ El juego consiste en predecir si crees que el precio del TRX subirá o bajará. Si aciertas, ganarás el doble de lo que apostaste.");
+    if (balance <= 0) {
+      showPopup("Te quedaste sin saldo, debes depositar.");
+      balance = 0; // Reinicia el balance a cero si se queda sin saldo
+      localStorage.setItem('balance', balance);
     }
+  }
 
-    // Mostrar mensaje emergente
-    function showPopup(message) {
-      document.getElementById('popupMessage').textContent = message;
-      document.getElementById('popup').style.display = 'block';
-      document.getElementById('overlay').style.display = 'block';
-    }
+  // Funciones para la navegación
+  function goToHome() {
+    // Lógica para ir a la página de inicio
+    window.location.href = 'index.html'; // Cambia 'index.html' por el nombre de tu página de inicio
+  }
 
-    function closePopup() {
-      document.getElementById('popup').style.display = 'none';
-      document.getElementById('overlay').style.display = 'none';
-    }
+  function goToDeposit() {
+    // Navegar a la página de depósito
+    window.location.href = 'depositar.html';
+  }
 
-    // Establecer monto de la apuesta
-    function setBet(amount) {
-      if (balance >= amount) {
-        betAmount = amount;
-        showPopup(`Apuesta de ${amount} TRX seleccionada.`);
-      } else {
-        showPopup("⚠️ No tienes saldo suficiente. Deposite para seguir apostando.");
-      }
-    }
-
-    // Simular predicción
-    function makePrediction(prediction) {
-      if (betAmount > 0) {
-        let result = Math.random() < 0.5 ? 'up' : 'down'; // Asegura resultados aleatorios
-        let predictionText = prediction === 'up' ? 'subir' : 'bajar';
-        document.getElementById('predictionContainer').textContent = `Predicción: ${predictionText}`;
-        setTimeout(() => checkResult(prediction, result), 2000);
-      } else {
-        showPopup("✅ Primero selecciona una cantidad para apostar.");
-      }
-    }
-
-    function checkResult(prediction, result) {
-      if (prediction === result) {
-        balance += betAmount * 2; // Duplicar la ganancia
-        showPopup(`Ganaste ${betAmount * 2} TRX`);
-      } else {
-        balance -= betAmount;
-        showPopup(`Perdiste ${betAmount} TRX`);
-      }
-      document.getElementById('balance').textContent = `Balance: ${balance} TRX`;
-      localStorage.setItem('balance', balance); // Actualiza el balance en localStorage
-      betAmount = 0;
-
-      if (balance <= 0) {
-        showPopup("Te quedaste sin saldo, debes depositar.");
-        balance = 0; // Reinicia el balance a cero si se queda sin saldo
-        localStorage.setItem('balance', balance);
-      }
-    }
-  </script>
+  function goToReferrals() {
+    // Lógica para ir a la sección de referidos
+    window.location.href = 'referidos.html'; // Cambia 'referidos.html' por el nombre de tu página de referidos
+  }
+</script>
 </body>
 </html>
