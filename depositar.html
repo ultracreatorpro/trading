@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino Online</title>
+    <style>
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background-color: #1c1c1c;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #111;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        .header-info {
+            font-size: 14px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        #userId {
+            margin-right: 20px;
+        }
+        #balance {
+            font-size: 14px;
+            color: #ffd700;
+        }
+        .container {
+            padding: 5px;
+        }
+        .title {
+            color: #ffd700;
+            font-size: 17px;
+            text-align: center;
+        }
+        .subtitle {
+            color: white;
+            font-size: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .wallet-container {
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .wallet-address {
+            color: white;
+            font-size: 12px;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+        .copy-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+        }
+        .copy-btn:hover {
+            background-color: #ffc107;
+        }
+        .popup {
+            display: none;
+            background-color: #444;
+            color: #ffd700;
+            padding: 10px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        footer {
+            background-color: #111;
+            padding: 20px;
+            text-align: center;
+            font-size: 16px;
+            color: #888;
+        }
+        .image-container {
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        Deposite para apostar
+        <div class="header-info">
+            <div id="userId"></div>
+            <div id="balance">$0.00</div>
+        </div>
+    </header>
+
+<div class="image-container">
+            <img id="usdtImage" src="https://cdn-icons-png.flaticon.com/128/2460/2460478.png" alt="Imagen de USDT" style="max-width: 100%; height: auto;">
+        </div>
+
+    <div class="container">
+        <!-- Título y subtítulo ajustables -->
+        <h1 class="title" id="mainTitle">Su depósito será identificado de forma automática por mediación de su ID </h1>
+        <h2 class="subtitle" id="subTitle">Copie la dirección y envíe un monto superior a $5</h2>
+
+        <!-- Contenedores de las direcciones de Bitcoin -->
+        <div class="wallet-container">
+            <p class="wallet-address" id="wallet1">TMYhfGidGdFBKt2b5aNQ71yJF4Nm9HTHSo</p>
+            <button class="copy-btn" onclick="copyToClipboard('wallet1')">Copiar dirección de TRX</button>
+        </div>
+
+        <div class="wallet-container">
+            <p class="wallet-address" id="wallet2">TMYhfGidGdFBKt2b5aNQ71yJF4Nm9HTHSo</p>
+            <button class="copy-btn" onclick="copyToClipboard('wallet2')">Copiar dirección de USDT TRC20</button>
+        </div>
+
+        <div class="wallet-container">
+            <p class="wallet-address" id="wallet3">EQBhFbIKgJt6ZJb6nUY2H7xv8Fp3wTlLvIpHIRodlZwIHrCq</p>
+            <button class="copy-btn" onclick="copyToClipboard('wallet3')">Copiar dirección de TON</button>
+        </div>
+
+        <div class="wallet-container">
+            <p class="wallet-address" id="wallet4">bc1qp6rkmns72smcg54xc0ypdjrv5lhcrz6um7gvm0</p>
+            <button class="copy-btn" onclick="copyToClipboard('wallet4')">Copiar dirección de BITCOIN</button>
+        </div>
+    </div>
+
+    <!-- Mensaje emergente de Copiado -->
+    <div id="popup" class="popup">¡Copiado con éxito!</div>
+
+    <footer>
+        © 2024 Predicciones de TRX. Todos los derechos reservados.
+    </footer>
+
+    <script>
+        function navigate(page) {
+            window.location.href = page;
+        }
+
+        // Función para copiar la dirección al portapapeles
+        function copyToClipboard(walletId) {
+            const walletElement = document.getElementById(walletId);
+            const walletAddress = walletElement.innerText; // Asegurarse de usar innerText
+            const textarea = document.createElement("textarea");
+            textarea.value = walletAddress;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+            showPopup();
+        }
+
+        // Función para mostrar el mensaje emergente
+        function showPopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 2000);
+        }
+
+        function generateUserId() {
+            const userId = 'user-' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('userId', userId);
+            return userId;
+        }
+    </script>
+
+</body>
+</html>
