@@ -111,6 +111,7 @@
       background-color: white;
       color: black;
       padding: 20px;
+      border: 3px solid red;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       z-index: 1000;
@@ -136,7 +137,7 @@
 <body>
   <div class="header">
     <h1>Predice el precio del TRX</h1>
-    <img src="enlace-a-tu-icono.jpg" alt="Información" onclick="openInfoModal()">
+    <img src="https://cdn-icons-png.flaticon.com/512/10313/10313345.png" alt="" onclick="showHelp()">
   </div>
 
   <div id="balance">Balance: 10 TRX</div>
@@ -160,15 +161,6 @@
     <button onclick="goToReferrals()">Referidos</button>
   </div>
 
-  <!-- Modal de Información -->
-  <div id="infoModal" style="display: none;">
-    <div style="background-color: white; color: black; padding: 20px; text-align: center;">
-      <h2>¿Cómo jugar?</h2>
-      <p>Elige si crees que el precio del TRX subirá o bajará. Si aciertas, duplicas tu apuesta.</p>
-      <button onclick="closeInfoModal()">Cerrar</button>
-    </div>
-  </div>
-
   <!-- Popup y overlay -->
   <div class="overlay" id="overlay"></div>
   <div class="popup" id="popup">
@@ -183,13 +175,9 @@
     // Inicializar balance en la página
     document.getElementById('balance').textContent = `Balance: ${balance} TRX`;
 
-    // Modal de información
-    function openInfoModal() {
-      document.getElementById('infoModal').style.display = 'block';
-    }
-
-    function closeInfoModal() {
-      document.getElementById('infoModal').style.display = 'none';
+    // Mostrar ventana de ayuda
+    function showHelp() {
+      showPopup("✅ El juego consiste en predecir si crees que el precio del TRX subirá o bajará. Si aciertas, ganarás el doble de lo que apostaste.");
     }
 
     // Mostrar mensaje emergente
@@ -210,19 +198,19 @@
         betAmount = amount;
         showPopup(`Apuesta de ${amount} TRX seleccionada.`);
       } else {
-        showPopup("No tienes saldo suficiente. Deposite para seguir apostando.");
+        showPopup("⚠️ No tienes saldo suficiente. Deposite para seguir apostando.");
       }
     }
 
     // Simular predicción
     function makePrediction(prediction) {
       if (betAmount > 0) {
-        let result = Math.random() < 0.5 ? 'up' : 'down';
+        let result = Math.random() < 0.5 ? 'up' : 'down'; // Asegura resultados aleatorios
         let predictionText = prediction === 'up' ? 'subir' : 'bajar';
         document.getElementById('predictionContainer').textContent = `Predicción: ${predictionText}`;
         setTimeout(() => checkResult(prediction, result), 2000);
       } else {
-        showPopup("Selecciona una cantidad para apostar.");
+        showPopup("✅ Primero selecciona una cantidad para apostar.");
       }
     }
 
@@ -243,19 +231,6 @@
         balance = 0; // Reinicia el balance a cero si se queda sin saldo
         localStorage.setItem('balance', balance);
       }
-    }
-
-    // Funciones del menú
-    function goToHome() {
-      showPopup("");
-    }
-
-    function goToDeposit() {
-      showPopup("");
-    }
-
-    function goToReferrals() {
-      showPopup("");
     }
   </script>
 </body>
