@@ -97,89 +97,113 @@
             text-align: center;
             margin-bottom: 5px;
         }
+        .menu {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 0;
+        }
+        .menu button {
+            background-color: green;
+            border: none;
+            padding: 10px;
+            color: white;
+            cursor: pointer;
+            width: 33%;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        Deposite para apostar
-        <div class="header-info">
-            <div id="userId"></div>
-            <div id="balance">$0.00</div>
-        </div>
-    </header>
+<header>
+    Deposite para apostar
+    <div class="header-info">
+        <div id="userId"></div>
+        <div id="balance">$0.00</div>
+    </div>
+</header>
 
 <div class="image-container">
-            <img id="usdtImage" src="https://cdn-icons-png.flaticon.com/128/2460/2460478.png" alt="Imagen de USDT" style="max-width: 100%; height: auto;">
-        </div>
+    <img id="usdtImage" src="https://cdn-icons-png.flaticon.com/128/2460/2460478.png" alt="Imagen de USDT" style="max-width: 100%; height: auto;">
+</div>
 
-    <div class="container">
-        <!-- Título y subtítulo ajustables -->
-        <h1 class="title" id="mainTitle">Su depósito será identificado de forma automática por mediación de su ID </h1>
-        <h2 class="subtitle" id="subTitle">Copie la dirección y envíe un monto superior a $5</h2>
+<div class="container">
+    <!-- Título y subtítulo ajustables -->
+    <h1 class="title" id="mainTitle">Su depósito será identificado de forma automática por mediación de su ID </h1>
+    <h2 class="subtitle" id="subTitle">Copie la dirección y envíe un monto superior a $5</h2>
 
-        <!-- Contenedores de las direcciones de Bitcoin -->
-        <div class="wallet-container">
-            <p class="wallet-address" id="wallet1">TMYhfGidGdFBKt2b5aNQ71yJF4Nm9HTHSo</p>
-            <button class="copy-btn" onclick="copyToClipboard('wallet1')">Copiar dirección de TRX</button>
-        </div>
-
-        <div class="wallet-container">
-            <p class="wallet-address" id="wallet2">TMYhfGidGdFBKt2b5aNQ71yJF4Nm9HTHSo</p>
-            <button class="copy-btn" onclick="copyToClipboard('wallet2')">Copiar dirección de USDT TRC20</button>
-        </div>
-
-        <div class="wallet-container">
-            <p class="wallet-address" id="wallet3">EQBhFbIKgJt6ZJb6nUY2H7xv8Fp3wTlLvIpHIRodlZwIHrCq</p>
-            <button class="copy-btn" onclick="copyToClipboard('wallet3')">Copiar dirección de TON</button>
-        </div>
-
-        <div class="wallet-container">
-            <p class="wallet-address" id="wallet4">bc1qp6rkmns72smcg54xc0ypdjrv5lhcrz6um7gvm0</p>
-            <button class="copy-btn" onclick="copyToClipboard('wallet4')">Copiar dirección de BITCOIN</button>
-        </div>
+    <!-- Contenedores de las direcciones de Bitcoin -->
+    <div class="wallet-container">
+        <p class="wallet-address" id="wallet1">TMYhfGidGdFBKt2b5aNQ71yJF4Nm9HTHSo</p>
+        <button class="copy-btn" onclick="copyToClipboard('wallet1')">Copiar dirección de TRX</button>
     </div>
 
-    <!-- Mensaje emergente de Copiado -->
-    <div id="popup" class="popup">¡Copiado con éxito!</div>
+    <div class="wallet-container">
+        <p class="wallet-address" id="wallet2">TMYhfGidGdFBKt2b5aNQ71yJF4Nm9HTHSo</p>
+        <button class="copy-btn" onclick="copyToClipboard('wallet2')">Copiar dirección de USDT TRC20</button>
+    </div>
 
-    <footer>
+    <div class="wallet-container">
+        <p class="wallet-address" id="wallet3">EQBhFbIKgJt6ZJb6nUY2H7xv8Fp3wTlLvIpHIRodlZwIHrCq</p>
+        <button class="copy-btn" onclick="copyToClipboard('wallet3')">Copiar dirección de TON</button>
+    </div>
+
+    <div class="wallet-container">
+        <p class="wallet-address" id="wallet4">bc1qp6rkmns72smcg54xc0ypdjrv5lhcrz6um7gvm0</p>
+        <button class="copy-btn" onclick="copyToClipboard('wallet4')">Copiar dirección de BITCOIN</button>
+    </div>
+</div>
+
+<!-- Mensaje emergente de Copiado -->
+<div id="popup" class="popup">¡Copiado con éxito!</div>
+
+<!-- Menú inferior -->
+<div class="menu">
+    <button onclick="navigate('index.html')">Inicio</button>
+    <button onclick="navigate('depositar.html')">Depositar</button>
+    <button onclick="navigate('referidos.html')">Referidos</button>
+</div>
+
+<footer>
         © 2024 Predicciones de TRX. Todos los derechos reservados.
     </footer>
 
-    <script>
-        function navigate(page) {
-            window.location.href = page;
-        }
+<script>
+    function navigate(page) {
+        window.location.href = page;
+    }
 
-        // Función para copiar la dirección al portapapeles
-        function copyToClipboard(walletId) {
-            const walletElement = document.getElementById(walletId);
-            const walletAddress = walletElement.innerText; // Asegurarse de usar innerText
-            const textarea = document.createElement("textarea");
-            textarea.value = walletAddress;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textarea);
-            showPopup();
-        }
+    // Función para copiar la dirección al portapapeles
+    function copyToClipboard(walletId) {
+        const walletElement = document.getElementById(walletId);
+        const walletAddress = walletElement.innerText; // Asegurarse de usar innerText
+        const textarea = document.createElement("textarea");
+        textarea.value = walletAddress;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        showPopup();
+    }
 
-        // Función para mostrar el mensaje emergente
-        function showPopup() {
-            const popup = document.getElementById('popup');
-            popup.style.display = 'block';
-            setTimeout(() => {
-                popup.style.display = 'none';
-            }, 2000);
-        }
+    // Función para mostrar el mensaje emergente
+    function showPopup() {
+        const popup = document.getElementById('popup');
+        popup.style.display = 'block';
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 2000);
+    }
 
-        function generateUserId() {
-            const userId = 'user-' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('userId', userId);
-            return userId;
-        }
-    </script>
+    function generateUserId() {
+        const userId = 'user-' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('userId', userId);
+        return userId;
+    }
+</script>
 
 </body>
 </html>
