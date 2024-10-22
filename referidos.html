@@ -69,6 +69,19 @@
         .copy-btn:hover {
             background-color: #ffc107;
         }
+        .retirar-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+        }
+        .retirar-btn:hover {
+            background-color: #0056b3;
+        }
         .popup {
             display: none;
             background-color: #444;
@@ -120,6 +133,9 @@
         <p id="referralLink">https://prediccionesdetrx.com/referral/6831948</p>
         <button class="copy-btn" onclick="copyToClipboard('referralLink')">Copiar enlace</button>
     </div>
+
+    <!-- Nuevo botón de Retirar -->
+    <button class="retirar-btn" onclick="navigate('retirar.html')">Retirar</button>
 </div>
 
 <!-- Mensaje emergente de Copiado -->
