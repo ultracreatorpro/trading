@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Predicción TRX</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('https://i.ibb.co/bQq4cfs/20241022-010139-0000.png');
+      background-size: cover;
+      color: white;
+    }
+
+    .header {
+      background-color: green;
+      padding: 15px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      color: white;
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .header img {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+
+    #balance {
+      text-align: center;
+      font-size: 20px;
+      margin: 20px;
+    }
+
+    .prediction-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100px;
+      background-color: rgba(0, 0, 0, 0.5);
+      margin: 20px;
+      text-align: center;
+      font-size: 30px;
+    }
+
+    .buttons {
+      text-align: center;
+      margin: 20px;
+    }
+
+    .buttons button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      color: white;
+    }
+
+    .buttons .up {
+      background-color: green;
+      border: 2px solid white;
+    }
+
+    .buttons .down {
+      background-color: red;
+      border: 2px solid white;
+    }
+
+    .buttons .bet {
+      background-color: blue;
+      border: 2px solid white;
+    }
+
+    .menu {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 10px 0;
+    }
+
+    .menu button {
+      background-color: green;
+      border: none;
+      padding: 10px;
+      color: white;
+      cursor: pointer;
+      width: 33%;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Predice el precio del TRX</h1>
+    <img src="enlace-a-tu-icono.jpg" alt="Información" onclick="openInfoModal()">
+  </div>
+
+  <div id="balance">Balance: 5 TRX</div>
+
+  <div class="prediction-container" id="predictionContainer">Esperando predicción...</div>
+
+  <div class="buttons">
+    <button class="down" onclick="makePrediction('down')">Bajar</button>
+    <button class="up" onclick="makePrediction('up')">Subir</button>
+  </div>
+
+  <div class="buttons">
+    <button class="bet" onclick="setBet(1)">Apostar 1 TRX</button>
+    <button class="bet" onclick="setBet(5)">Apostar 5 TRX</button>
+    <button class="bet" onclick="setBet(10)">Apostar 10 TRX</button>
+  </div>
+
+  <div class="menu">
+    <button onclick="goToHome()">Inicio</button>
+    <button onclick="goToDeposit()">Depositar</button>
+    <button onclick="goToReferrals()">Referidos</button>
+  </div>
+
+  <!-- Modal de Información -->
+  <div id="infoModal" style="display: none;">
+    <div style="background-color: white; color: black; padding: 20px; text-align: center;">
+      <h2>¿Cómo jugar?</h2>
+      <p>Elige si crees que el precio del TRX subirá o bajará. Si aciertas, duplicas tu apuesta.</p>
+      <button onclick="closeInfoModal()">Cerrar</button>
+    </div>
+  </div>
+
+  <script>
+    let balance = localStorage.getItem('balance') ? parseFloat(localStorage.getItem('balance')) : 5;
+    let betAmount = 0;
+
+    // Inicializar balance en la página
+    document.getElementById('balance').textContent = `Balance: ${balance} TRX`;
+
+    // Modal de información
+    function openInfoModal() {
+      document.getElementById('infoModal').style.display = 'block';
+    }
+
+    function closeInfoModal() {
+      document.getElementById('infoModal').style.display = 'none';
+    }
+
+    // Establecer monto de la apuesta
+    function setBet(amount) {
+      if (balance >= amount) {
+        betAmount = amount;
+        alert(`Apuesta de ${amount} TRX seleccionada.`);
+      } else {
+        alert("No tienes saldo suficiente.");
+      }
+    }
+
+    // Simular predicción
+    function makePrediction(prediction) {
+      if (betAmount > 0) {
+        let result = Math.random() < 0.5 ? 'up' : 'down';
+        let predictionText = prediction === 'up' ? 'subir' : 'bajar';
+        document.getElementById('predictionContainer').textContent = `Predicción: ${predictionText}`;
+        setTimeout(() => checkResult(prediction, result), 3000);
+      } else {
+        alert("Selecciona una cantidad para apostar.");
+      }
+    }
+
+    function checkResult(prediction, result) {
+      if (prediction === result) {
+        balance += betAmount;
+        alert(`Ganaste ${betAmount} TRX`);
+      } else {
+        balance -= betAmount;
+        alert(`Perdiste ${betAmount} TRX`);
+      }
+      document.getElementById('balance').textContent = `Balance: ${balance} TRX`;
+      localStorage.setItem('balance', balance); // Actualiza el balance en localStorage
+      betAmount = 0;
+
+      if (balance <= 0) {
+        alert("Te quedaste sin saldo, debes depositar.");
+        balance = 0; // Reinicia el balance a cero si se queda sin saldo
+        localStorage.setItem('balance', balance);
+      }
+    }
+
+    // Funciones del menú
+    function goToHome() {
+      alert("Estás en Inicio");
+    }
+
+    function goToDeposit() {
+      alert("Ir a la sección de Depositar (por configurar)");
+    }
+
+    function goToReferrals() {
+      alert("Ir a la sección de Referidos (por configurar)");
+    }
+  </script>
+</body>
+</html>
