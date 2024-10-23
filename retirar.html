@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sección de Billetera - TON</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1c1c1c;
+            margin: 0;
+            padding: 20px;
+        }
+        .wallet-section {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .wallet-section h2 {
+            text-align: center;
+            color: white;
+        }
+        .wallet-section label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: white;
+        }
+        .wallet-section input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #e9ecef;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .wallet-section button {
+            width: 100%;
+            padding: 10px;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px; /* Espacio entre los botones */
+        }
+        .wallet-section button.save-button {
+            background-color: #007bff; /* Azul para el botón de guardar */
+        }
+        .wallet-section button.save-button:hover {
+            background-color: #0056b3; /* Color más oscuro en hover */
+        }
+        .wallet-section button.menu-button {
+            background-color: #28a745; /* Verde para el botón de depositar */
+        }
+        .wallet-section button.menu-button:hover {
+            background-color: #218838; /* Color más oscuro en hover */
+        }
+        .wallet-address {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #2d2d2d;
+            color: white;
+            border-radius: 4px;
+            text-align: center;
+            word-wrap: break-word;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        .popup h3 {
+            margin: 0;
+        }
+        .popup button {
+            margin-top: 10px;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .image-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wallet-section">
+        <h2>Agrega tu dirección de TRX</h2>
+        
+        <div class="image-container">
+            <img id="usdtImage" src="https://cdn-icons-png.flaticon.com/128/10384/10384161.png" alt="Imagen de TRX" style="max-width: 100%; height: auto;">
+        </div>
+
+        <label for="usdtAddress">Monto mínimo de retiro 50 TRX</label>
+        <label for="usdtAddress">Balance actual retirable: 0.00 TRX</label>
+        <input type="text" id="usdtAddress" placeholder="Introduce tu dirección de TRX">
+
+        <button class="save-button" onclick="saveAddress()">Guardar dirección</button>
+
+        <div id="savedAddressContainer" class="wallet-address" style="display: none;">
+            <p><strong>Dirección guardada:</strong></p>
+            <p id="savedAddress"></p>
+        </div>
+        
+        <!-- Botón Volver al menú -->
+        <button class="menu-button" onclick="goToMenu()">Depositar para apostar</button>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <h3>Dirección de USDT guardada con éxito.</h3>
+        <button onclick="closePopup()">Cerrar</button>
+    </div>
+
+    <script>
+        function saveAddress() {
+            const usdtAddress = document.getElementById('usdtAddress').value;
+            if (usdtAddress) {
+                localStorage.setItem('usdtAddress', usdtAddress);
+                displaySavedAddress();
+                openPopup();
+            } else {
+            }
+        }
+
+        function displaySavedAddress() {
+            const savedAddress = localStorage.getItem('usdtAddress');
+            if (savedAddress) {
+                document.getElementById('savedAddress').textContent = savedAddress;
+                document.getElementById('savedAddressContainer').style.display = 'block';
+            }
+        }
+
+        function openPopup() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function goToMenu() {
+            window.location.href = 'depositar.html'; // Cambia esto al nombre de tu archivo principal
+        }
+
+        window.onload = function() {
+            displaySavedAddress();
+        }
+    </script>
+
+</body>
+</html>
