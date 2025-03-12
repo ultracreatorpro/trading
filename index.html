@@ -155,6 +155,10 @@
     <button class="bet" onclick="setBet(10)">Apostar 10 TRX</button>
   </div>
 
+  ads.ad_show({
+  adBlockUuid: "f8ec0ae6-0fdb-4c2a-91f3-12460b52e1ad"
+});
+
   <div class="menu">
     <button onclick="goToHome()">Inicio</button>
     <button onclick="goToDeposit()">Depositar</button>
@@ -167,6 +171,12 @@
     <p id="popupMessage"></p>
     <button onclick="closePopup()">Cerrar</button>
   </div>
+
+  <script src="https://inapp.telega.io/sdk/v1/sdk.js"></script>
+<script>
+  const ads = window.TelegaIn.AdsController.create_miniapp({
+    token: '7d1ed190-fdd0-4485-9c9d-7dd8e5ed7303' });
+</script>
 
   <script>
   let balance = localStorage.getItem('balance') ? parseFloat(localStorage.getItem('balance')) : 10; // Cambiado a 10 TRX
